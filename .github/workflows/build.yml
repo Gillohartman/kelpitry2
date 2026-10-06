@@ -1,0 +1,37 @@
+name: Build mod
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 25
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 25
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: 9.5.1
+
+      - name: Build mod
+        working-directory: ./KelpClient 1/greenmod
+        run: gradle build --no-daemon
+
+      - name: Upload mod jar
+        uses: actions/upload-artifact@v4
+        with:
+          name: greenmod-jar
+          path: |
+            KelpClient 1/greenmod/build/libs/*.jar
+            !KelpClient 1/greenmod/build/libs/*-sources.jar
