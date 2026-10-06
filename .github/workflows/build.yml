@@ -1,47 +1,25 @@
-name: Build mod
+name: Find Gradle project
 
 on:
-  push:
-  pull_request:
   workflow_dispatch:
 
 jobs:
-  build:
+  find:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Show repository structure
+      - name: Find Gradle files
         run: |
-          echo "=== CURRENT DIRECTORY ==="
+          echo "CURRENT DIRECTORY:"
           pwd
-          echo "=== ROOT ==="
+          
+          echo ""
+          echo "ROOT CONTENT:"
           ls -la
-          echo "=== ALL BUILD FILES ==="
-          find . -name "build.gradle" -o -name "settings.gradle" -o -name "gradlew"
-
-      - name: Set up JDK 25
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: 25
-
-      - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@v4
-        with:
-          gradle-version: 9.5.1
-
-      - name: Build mod
-        run: |
-          cd "KelpClient 1/greenmod"
-          gradle build --no-daemon
-
-      - name: Upload mod jar
-        uses: actions/upload-artifact@v4
-        with:
-          name: greenmod-jar
-          path: |
-            KelpClient 1/greenmod/build/libs/*.jar
-            !KelpClient 1/greenmod/build/libs/*-sources.jar
+          
+          echo ""
+          echo "GRADLE FILES:"
+          find . -type f \( -name "build.gradle" -o -name "build.gradle.kts" -o -name "settings.gradle" -o -name "settings.gradle.kts" -o -name "gradlew" \) -print
