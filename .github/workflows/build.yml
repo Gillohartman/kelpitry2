@@ -25,7 +25,6 @@ jobs:
           gradle-version: 9.5.1
 
       - name: Build mod
-        working-directory: ./KelpClient 1/greenmod
         run: gradle build --no-daemon
 
       - name: Upload mod jar
@@ -33,5 +32,5 @@ jobs:
         with:
           name: greenmod-jar
           path: |
-            KelpClient 1/greenmod/build/libs/*.jar
-            !KelpClient 1/greenmod/build/libs/*-sources.jar
+            build/libs/*.jar
+            !build/libs/*-sources.jar
